@@ -18,6 +18,7 @@ export default function SimpleBottomNavigation() {
         position: "fixed",
         bottom: "0",
         width: "100%",
+        Zindex: "1000",
     };
     return (
         <BottomNavigation

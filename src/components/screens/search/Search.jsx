@@ -17,8 +17,8 @@ function Search() {
     const [nouOfPages, setNumOfPages] = useState();
     const usersPerPage = 4;
     const [pageNumber, setPageNumber] = useState(0);
-    const fetchSearch = async () => {
-        const { data } = await axios.get(`
+    const fetchSearch = () => {
+        const { data } = axios.get(`
         https://api.themoviedb.org/3/search/${
             type ? "tv" : "movie"
         }?api_key=e43eba67f2cc72984903d2f506d0bbb9&language=en-US&query=${search}&page=${page}&include_adult=false`);
@@ -29,10 +29,10 @@ function Search() {
         window.scroll(0, 0);
         fetchSearch();
     }, [type, page]);
-    // const pageCount = Math.ceil(content.length / usersPerPage);
-    // const changePage = ({ selected }) => {
-    //     setPageNumber(selected);
-    // };
+    const pageCount = Math.ceil(content / usersPerPage);
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+    };
 
     return (
         <Containers>
@@ -44,9 +44,14 @@ function Search() {
                     id="filled-basic"
                     label="Search"
                     variant="filled"
+                    textColor="primary"
                     onClick={(e) => setSearch(e.target.value)}
                 />
-                <Button variant="contained" style={{ marginLeft: 10 }}>
+                <Button
+                    variant="contained"
+                    style={{ marginLeft: 10 }}
+                    onClick={fetchSearch}
+                >
                     <SearchIcon />
                 </Button>
             </div>
@@ -63,7 +68,7 @@ function Search() {
                 <Tab style={{ width: "50%" }} label="Search Movies" />
                 <Tab style={{ width: "50%" }} label="Search Series" />
             </Tabs>
-            <div className="trending">
+            <Div className="trending">
                 {content &&
                     content.map((item) => (
                         <SingleContent
@@ -72,18 +77,18 @@ function Search() {
                             poster={item.poster_path}
                             title={item.title || item.name}
                             date={item.first_air_date || item.release_date}
-                            media_type="movies"
+                            media_type={type ? "tv" : "movie"}
                             vote_average={item.vote_average}
                         />
                     ))}
                 {search &&
                     !content &&
                     (type ? (
-                        <h2>No Series Found</h2>
+                        <Comment>No Series Found</Comment>
                     ) : (
-                        <h2>No Movies Found</h2>
+                        <Comment>No Movies Found</Comment>
                     ))}
-            </div>
+            </Div>
             {/* <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
@@ -101,6 +106,22 @@ function Search() {
 
 export default Search;
 const Containers = styled.div`
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    /* align-items: center; */
+`;
+const Div = styled.div`
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+`;
+const Comment = styled.h2`
+    text-align: center;
+    width: 100%;
+    margin: 60px auto;
 `;

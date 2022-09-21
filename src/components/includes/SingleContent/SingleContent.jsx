@@ -2,24 +2,31 @@ import { Badge } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 import { img_300, unavailable } from "../../../config/config";
+import ContentModal from "../../modal/ContentModal";
 
 function SingleContent({ id, poster, title, date, media_type, vote_average }) {
     return (
-        <Container>
-            <Badge
-                badgeContent={vote_average}
-                color={vote_average > 6 ? "primary" : "secondary"}
-            />
-            <Img
-                src={poster ? `${img_300}/${poster}` : unavailable}
-                alt={title}
-            />
-            <Title>{title}</Title>
-            <Span className="subTitle">
-                {media_type === "tv" ? "TV Series" : "Movies"}
-                <Span className="subTitle">{date}</Span>
-            </Span>
-        </Container>
+        <>
+            {" "}
+            <ContentModal media_type={media_type} id={id}>
+                <Container>
+                    <Badge
+                        badgeContent={vote_average}
+                        color={vote_average > 6 ? "primary" : "secondary"}
+                        style={{ zIndex: "0" }}
+                    />
+                    <Img
+                        src={poster ? `${img_300}/${poster}` : unavailable}
+                        alt={title}
+                    />
+                    <Title>{title}</Title>
+                    <Span className="subTitle">
+                        {media_type === "tv" ? "TV Series" : "Movies"}
+                        <Span className="subTitle">{date}</Span>
+                    </Span>
+                </Container>
+            </ContentModal>
+        </>
     );
 }
 
@@ -37,6 +44,7 @@ const Container = styled.div`
     position: relative;
     margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
+
     &:hover {
         background-color: #fff;
         color: #000;

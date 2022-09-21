@@ -16,8 +16,8 @@ function Series() {
     const [genres, setGenres] = useState([]);
     const genreforURL = useGenre(selected);
 
-    const fetchSeries = async () => {
-        const { data } = await axios.get(
+    const fetchSeries = () => {
+        const { data } = axios.get(
             `https://api.themoviedb.org/3/discover/tv?api_key=e43eba67f2cc72984903d2f506d0bbb9&{page}=${page}`
         );
         console.log(data);
