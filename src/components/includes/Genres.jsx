@@ -19,19 +19,16 @@ function Genres({ selected, setSelected, genres, setGenres, setPage, type }) {
         );
         setGenres(data.genres);
     };
-    console.log(genres);
+    console.log(genres, "generes");
     useEffect(() => {
         fetchGenres();
-        return () => {
-            setGenres({});
-        };
     }, []);
 
     return (
         <>
             <div style={{ padding: "6px 0" }}>
                 {selected &&
-                    selected.map((genre) => (
+                    selected?.map((genre) => (
                         <Chip
                             label={genre.name}
                             size="small"
@@ -43,7 +40,7 @@ function Genres({ selected, setSelected, genres, setGenres, setPage, type }) {
                         />
                     ))}
                 {genres &&
-                    genres.map((genre) => (
+                    genres?.map((genre) => (
                         <Chip
                             label={genre.name}
                             size="small"
